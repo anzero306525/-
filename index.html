@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <!-- Эта строка нужна, чтобы сайт правильно выглядел на телефоне -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добрый Гусь — кофейня</title>
+  <meta name="description" content="Кофейня «Добрый Гусь» — кофе, после которого хочется остаться.">
+
+  <!-- Шрифты Google Fonts: Playfair Display (заголовки) и Inter (текст) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Подключаем наши стили -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Если в браузере выключен JavaScript, просто показываем все блоки без анимации -->
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+
+  <!-- =====================================================
+       1. ШАПКА
+       ===================================================== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+
+      <!-- Логотип: иконка гуся + название -->
+      <a href="#top" class="logo" aria-label="На главную">
+        <span class="logo__icon">
+          <svg class="goose" viewBox="0 0 48 48" aria-hidden="true">
+            <!-- лапки -->
+            <path d="M22 40l-2 5M31 40l2 5" stroke="#F28C28" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- голова и шея (эта группа покачивается) -->
+            <g class="goose__head">
+              <path d="M16 32C13 25 12 18 15 12" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+              <path d="M16 32C13 25 12 18 15 12" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+              <circle cx="15.5" cy="10" r="5.5" fill="#fff" stroke="currentColor" stroke-width="2"/>
+              <path d="M20.5 8.5L27 10.5L20.5 12.8Z" fill="#F28C28" stroke="#D9731A" stroke-width="1" stroke-linejoin="round"/>
+              <circle cx="17" cy="9" r="1.3" fill="currentColor"/>
+              <circle cx="13.5" cy="12" r="1.4" fill="#F7B9A0"/>
+            </g>
+            <!-- тело -->
+            <ellipse cx="27" cy="33" rx="15" ry="9" fill="#fff" stroke="currentColor" stroke-width="2"/>
+            <!-- крылышко -->
+            <path d="M24 31q8-5 14 2q-7 4-14-2z" fill="#F3E8D8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <!-- data-config="name" — текст подставится из CONFIG в script.js -->
+        <span class="logo__text" data-config="name">Добрый Гусь</span>
+      </a>
+
+      <!-- Меню -->
+      <nav class="nav" id="nav" aria-label="Главное меню">
+        <ul class="nav__list">
+          <li><a href="#about" class="nav__link">О нас</a></li>
+          <li><a href="#menu" class="nav__link">Меню</a></li>
+          <li><a href="#booking" class="nav__link">Бронирование</a></li>
+          <li><a href="#contacts" class="nav__link">Контакты</a></li>
+        </ul>
+        <!-- Эта кнопка видна только в мобильном меню -->
+        <a href="#booking" class="btn btn--accent nav__btn-mobile">Забронировать стол</a>
+      </nav>
+
+      <a href="#booking" class="btn btn--accent header__btn">Забронировать стол</a>
+
+      <!-- Бургер-кнопка (видна только на телефоне) -->
+      <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =====================================================
+         2. ГЛАВНЫЙ ЭКРАН
+         ===================================================== -->
+    <section class="hero" id="top">
+      <!-- Фон: фото кофейни. data-parallax — скорость параллакса -->
+      <div class="hero__bg" data-parallax="0.3">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1920&q=80"
+             alt="Уютный зал кофейни">
+      </div>
+      <!-- Затемнение поверх фото, чтобы текст хорошо читался -->
+      <div class="hero__overlay"></div>
+
+      <div class="container">
+        <div class="hero__content">
+          <p class="hero__label hero-anim">Кофейня</p>
+          <h1 class="hero__title hero-anim" data-config="name">Добрый Гусь</h1>
+          <p class="hero__slogan hero-anim" data-config="slogan">Кофе, после которого хочется остаться</p>
+          <div class="hero__buttons hero-anim">
+            <a href="#menu" class="btn btn--light">Посмотреть меню</a>
+            <a href="#booking" class="btn btn--accent">Забронировать стол</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Чашка кофе с анимированным паром -->
+      <div class="hero__cup" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <path class="steam steam--1" d="M24 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <path class="steam steam--2" d="M32 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <path class="steam steam--3" d="M40 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <ellipse cx="32" cy="58" rx="24" ry="3.5" fill="#E8D7C3" stroke="#5C4033" stroke-width="2"/>
+          <path d="M50 30h3a6 6 0 0 1 0 12h-4" fill="none" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 26h36v10a18 18 0 0 1-36 0z" fill="#FFFDF9" stroke="#5C4033" stroke-width="2"/>
+          <ellipse cx="32" cy="26" rx="18" ry="3.5" fill="#8B5E3C" stroke="#5C4033" stroke-width="2"/>
+          <path d="M32 46c-4-3-6-5-6-7a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 2-2 4-6 7z" fill="#F28C28"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         3. О НАС
+         ===================================================== -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <!-- data-stagger — элементы внутри появляются по очереди -->
+        <div class="about__text" data-stagger>
+          <p class="section__label reveal">О нас</p>
+          <h2 class="section__title reveal">Место, где вас всегда ждут</h2>
+          <p class="about__para reveal">
+            «Добрый Гусь» начался с простой мечты — сделать кофейню, куда хочется возвращаться.
+            Не просто забежать за стаканчиком, а присесть у окна, укутаться в плед и никуда не спешить.
+          </p>
+          <p class="about__para reveal">
+            Мы сами выбираем зёрна у небольших обжарщиков, каждое утро печём круассаны
+            и знаем по именам многих гостей. Наши бариста с радостью подскажут напиток под настроение.
+          </p>
+          <p class="about__para reveal">
+            Приходите с друзьями, с книгой или с ноутбуком — у нас тепло, вкусно и по-доброму.
+            Как и положено гусю, который любит свой дом.
+          </p>
+        </div>
+
+        <div class="about__photos">
+          <!-- Фото выезжает слева -->
+          <figure class="about__photo reveal reveal--left">
+            <div class="parallax" data-parallax="0.06">
+              <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80"
+                   alt="Интерьер кофейни" loading="lazy">
+            </div>
+          </figure>
+          <!-- Фото выезжает справа -->
+          <figure class="about__photo about__photo--2 reveal reveal--right">
+            <div class="parallax" data-parallax="0.06">
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80"
+                   alt="Чашка капучино с латте-артом" loading="lazy">
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         4. ПРЕИМУЩЕСТВА
+         ===================================================== -->
+    <section class="section features">
+      <div class="container">
+        <div class="section__head" data-stagger>
+          <p class="section__label reveal">Почему к нам</p>
+          <h2 class="section__title reveal">Три причины заглянуть</h2>
+        </div>
+
+        <div class="features__grid" data-stagger>
+          <!-- Карточка: Кофе -->
+          <article class="feature-card reveal">
+            <div class="feature-card__icon">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path class="steam steam--1" d="M24 22c-3-4 3-6 0-10s3-6 0-10"/>
+                <path class="steam steam--2" d="M32 22c-3-4 3-6 0-10s3-6 0-10"/>
+                <path class="steam steam--3" d="M40 22c-3-4 3-6 0-10s3-6 0-10"/>
+                <ellipse cx="32" cy="58" rx="24" ry="3.5" fill="#E8D7C3" stroke="#5C4033" stroke-width="2"/>
+                <path d="M50 30h3a6 6 0 0 1 0 12h-4" fill="none" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+                <path d="M14 26h36v10a18 18 0 0 1-36 0z" fill="#FFFDF9" stroke="#5C4033" stroke-width="2"/>
+                <ellipse cx="32" cy="26" rx="18" ry="3.5" fill="#8B5E3C" stroke="#5C4033" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Кофе</h3>
+            <p>Свежая обжарка от небольших ростеров, эспрессо и фильтр. Бариста подберёт напиток под ваше настроение.</p>
+          </article>
+
+          <!-- Карточка: Кухня -->
+          <article class="feature-card reveal">
+            <div class="feature-card__icon">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <ellipse cx="32" cy="54" rx="20" ry="2.5" fill="#E8D7C3"/>
+                <g class="croissant">
+                  <path d="M6 44C9 22 55 22 58 44c-6-4-12-5-26-5S12 40 6 44z" fill="#E9A956" stroke="#5C4033" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="M21 28c2 4 2 8 1 12M32 25v14M43 28c-2 4-2 8-1 12" fill="none" stroke="#5C4033" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M12 38c2-6 5-9 8-11" fill="none" stroke="#F8D69B" stroke-width="2" stroke-linecap="round"/>
+                </g>
+              </svg>
+            </div>
+            <h3>Кухня</h3>
+            <p>Круассаны из печи каждое утро, сытные завтраки весь день и домашние десерты по нашим рецептам.</p>
+          </article>
+
+          <!-- Карточка: Пространство -->
+          <article class="feature-card reveal">
+            <div class="feature-card__icon">
+              <svg viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 42V18" stroke="#4F7340" stroke-width="2.5" stroke-linecap="round"/>
+                <path class="leaf leaf--left" d="M32 34c-9 0-14-6-14-12 8 0 14 4 14 12z" fill="#7FA36B" stroke="#4F7340" stroke-width="1.5"/>
+                <path class="leaf leaf--right" d="M32 28c9 0 14-6 14-12-8 0-14 4-14 12z" fill="#8DB378" stroke="#4F7340" stroke-width="1.5"/>
+                <path class="leaf leaf--top" d="M32 19c-4-4-4-10 0-14 4 4 4 10 0 14z" fill="#7FA36B" stroke="#4F7340" stroke-width="1.5"/>
+                <rect x="20" y="40" width="24" height="5" rx="2" fill="#C8734E" stroke="#5C4033" stroke-width="1.5"/>
+                <path d="M22 45h20l-3 13H25z" fill="#D9825B" stroke="#5C4033" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Пространство</h3>
+            <p>Мягкие кресла, живые растения и тёплый свет. Есть тихая зона для работы и большой стол для компаний.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         5. МЕНЮ
+         Сами позиции и цены лежат в script.js (массив MENU)
+         ===================================================== -->
+    <section class="section menu" id="menu">
+      <div class="container">
+        <div class="section__head" data-stagger>
+          <p class="section__label reveal">Меню</p>
+          <h2 class="section__title reveal">Что у нас вкусного</h2>
+          <p class="section__subtitle reveal">Готовим с любовью и без спешки</p>
+        </div>
+
+        <!-- Сюда JavaScript добавит кнопки-вкладки -->
+        <div class="menu-tabs reveal" id="menuTabs" role="tablist" aria-label="Категории меню"></div>
+
+        <!-- Сюда JavaScript добавит позиции выбранной категории -->
+        <ul class="menu-list" id="menuList"></ul>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         6. БРОНИРОВАНИЕ
+         ===================================================== -->
+    <section class="section booking" id="booking">
+      <div class="container booking__grid">
+
+        <div class="booking__info" data-stagger>
+          <p class="section__label reveal">Бронирование</p>
+          <h2 class="section__title reveal">Оставим для вас столик</h2>
+          <p class="reveal">
+            Заполните форму — мы перезвоним, чтобы подтвердить бронь.
+            Если планы поменяются, просто позвоните нам.
+          </p>
+          <figure class="booking__photo reveal">
+            <div class="parallax" data-parallax="0.06">
+              <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=80"
+                   alt="Свежие круассаны" loading="lazy">
+            </div>
+          </figure>
+        </div>
+
+        <!-- novalidate — отключаем стандартные подсказки браузера, проверяем сами в script.js -->
+        <form class="booking-form reveal" id="bookingForm" novalidate>
+
+          <div class="form-row">
+            <div class="field" data-field="name">
+              <label class="field__label" for="bookingName">Имя</label>
+              <input class="field__input" type="text" id="bookingName" placeholder="Как к вам обращаться?" autocomplete="name">
+              <p class="field__error"></p>
+            </div>
+
+            <div class="field" data-field="phone">
+              <label class="field__label" for="bookingPhone">Телефон</label>
+              <input class="field__input" type="tel" id="bookingPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
+              <p class="field__error"></p>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field" data-field="date">
+              <label class="field__label" for="bookingDate">Дата</label>
+              <input class="field__input" type="date" id="bookingDate">
+              <p class="field__error"></p>
+            </div>
+
+            <div class="field" data-field="guests">
+              <span class="field__label" id="guestsLabel">Количество гостей</span>
+              <div class="counter" role="group" aria-labelledby="guestsLabel">
+                <button type="button" class="counter__btn" id="guestsMinus" aria-label="Меньше гостей">−</button>
+                <span class="counter__value" id="guestsValue" aria-live="polite">2</span>
+                <button type="button" class="counter__btn" id="guestsPlus" aria-label="Больше гостей">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="field" data-field="time">
+            <span class="field__label" id="timeLabel">Время</span>
+            <!-- Кнопки-слоты времени создаёт script.js -->
+            <div class="slots" id="timeSlots" role="group" aria-labelledby="timeLabel"></div>
+            <p class="field__error"></p>
+          </div>
+
+          <div class="field">
+            <span class="field__label" id="zoneLabel">Зона</span>
+            <div class="zones" role="radiogroup" aria-labelledby="zoneLabel">
+              <label class="chip"><input type="radio" name="zone" value="У окна"><span>У окна</span></label>
+              <label class="chip"><input type="radio" name="zone" value="Тихая зона"><span>Тихая зона</span></label>
+              <label class="chip"><input type="radio" name="zone" value="Общий стол"><span>Общий стол</span></label>
+              <label class="chip"><input type="radio" name="zone" value="Не важно" checked><span>Не важно</span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="bookingComment">Комментарий</label>
+            <textarea class="field__input" id="bookingComment" rows="3" placeholder="Например: день рождения, нужен детский стульчик"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--accent booking-form__submit">Забронировать стол</button>
+          <p class="booking-form__note">Нажимая кнопку, вы соглашаетесь, что мы вам перезвоним 🙂</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         7. КОНТАКТЫ
+         ===================================================== -->
+    <section class="section contacts" id="contacts">
+      <div class="container">
+        <div class="section__head" data-stagger>
+          <p class="section__label reveal">Контакты</p>
+          <h2 class="section__title reveal">Как нас найти</h2>
+        </div>
+
+        <div class="contacts__grid">
+          <div class="contacts__card reveal" data-stagger>
+            <div class="contact">
+              <span class="contact__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              </span>
+              <div>
+                <p class="contact__title">Адрес</p>
+                <p class="contact__value" data-config="address">ул. Примерная, 12</p>
+              </div>
+            </div>
+
+            <div class="contact">
+              <span class="contact__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              </span>
+              <div>
+                <p class="contact__title">Часы работы</p>
+                <p class="contact__value" data-config="hoursWeekdays">Пн–Пт: 8:00–21:00</p>
+                <p class="contact__value" data-config="hoursWeekend">Сб–Вс: 9:00–20:00</p>
+              </div>
+            </div>
+
+            <div class="contact">
+              <span class="contact__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+              </span>
+              <div>
+                <p class="contact__title">Телефон</p>
+                <!-- data-link="phone" — ссылка tel: подставится из CONFIG -->
+                <a class="contact__value" href="#" data-link="phone" data-config="phone">+7 (900) 000-00-00</a>
+              </div>
+            </div>
+
+            <div class="contact">
+              <span class="contact__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              </span>
+              <div>
+                <p class="contact__title">Email</p>
+                <a class="contact__value" href="#" data-link="email" data-config="email">hello@example.com</a>
+              </div>
+            </div>
+
+            <div class="socials">
+              <a class="social" href="#" data-link="telegram" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11l6 2 2 6 3-4 5 4z"/><path d="m9 13 12-9"/></svg>
+                Telegram
+              </a>
+              <a class="social" href="#" data-link="vk" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 7h3c.5 4 2 6 3.5 6.5V7h3v3.5c1.5-.2 3-2 3.5-3.5h3c-.5 2.5-2.5 4.5-4 5.3 1.5.7 3.5 2.5 4.3 4.7h-3.3c-.7-1.8-2.2-3.2-3.5-3.3V17H12C6.5 17 3.4 13.2 3 7z"/></svg>
+                ВКонтакте
+              </a>
+            </div>
+          </div>
+
+          <!-- МЕСТО ПОД КАРТУ.
+               Чтобы вставить настоящую карту: откройте Яндекс.Карты → найдите адрес →
+               «Поделиться» → «Встроить карту» → скопируйте код <iframe ...>
+               и вставьте его ВМЕСТО содержимого блока ниже (всё между <div class="map ..."> и </div>). -->
+          <div class="map reveal">
+            <div class="map__placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+              <p class="map__title">Здесь будет карта</p>
+              <p data-config="address">ул. Примерная, 12</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       8. ПОДВАЛ
+       ===================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div>
+          <a href="#top" class="logo" aria-label="На главную">
+            <span class="logo__icon">
+              <svg class="goose" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M22 40l-2 5M31 40l2 5" stroke="#F28C28" stroke-width="2.5" stroke-linecap="round"/>
+                <g class="goose__head">
+                  <path d="M16 32C13 25 12 18 15 12" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+                  <path d="M16 32C13 25 12 18 15 12" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>
+                  <circle cx="15.5" cy="10" r="5.5" fill="#fff" stroke="currentColor" stroke-width="2"/>
+                  <path d="M20.5 8.5L27 10.5L20.5 12.8Z" fill="#F28C28" stroke="#D9731A" stroke-width="1" stroke-linejoin="round"/>
+                  <circle cx="17" cy="9" r="1.3" fill="currentColor"/>
+                  <circle cx="13.5" cy="12" r="1.4" fill="#F7B9A0"/>
+                </g>
+                <ellipse cx="27" cy="33" rx="15" ry="9" fill="#fff" stroke="currentColor" stroke-width="2"/>
+                <path d="M24 31q8-5 14 2q-7 4-14-2z" fill="#F3E8D8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="logo__text" data-config="name">Добрый Гусь</span>
+          </a>
+          <p class="footer__slogan" data-config="slogan">Кофе, после которого хочется остаться</p>
+        </div>
+
+        <nav class="footer__nav" aria-label="Меню в подвале">
+          <a href="#about">О нас</a>
+          <a href="#menu">Меню</a>
+          <a href="#booking">Бронирование</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+
+        <button type="button" class="btn btn--ghost" data-scroll-top>Наверх ↑</button>
+      </div>
+
+      <div class="footer__bottom">
+        <!-- Год подставляется автоматически (см. script.js) -->
+        <p>© <span id="year">2026</span> <span data-config="name">Добрый Гусь</span>. Все права защищены.</p>
+        <p>Сделано с любовью и кофеином</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Плавающая кнопка «Наверх» (появляется после прокрутки) -->
+  <button type="button" class="to-top" id="toTop" data-scroll-top aria-label="Наверх">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Всплывающее окно «Спасибо!» после бронирования -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__window" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button type="button" class="modal__close" data-close aria-label="Закрыть">×</button>
+      <div class="modal__cup" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <path class="steam steam--1" d="M24 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <path class="steam steam--2" d="M32 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <path class="steam steam--3" d="M40 22c-3-4 3-6 0-10s3-6 0-10"/>
+          <ellipse cx="32" cy="58" rx="24" ry="3.5" fill="#E8D7C3" stroke="#5C4033" stroke-width="2"/>
+          <path d="M50 30h3a6 6 0 0 1 0 12h-4" fill="none" stroke="#5C4033" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 26h36v10a18 18 0 0 1-36 0z" fill="#FFFDF9" stroke="#5C4033" stroke-width="2"/>
+          <ellipse cx="32" cy="26" rx="18" ry="3.5" fill="#8B5E3C" stroke="#5C4033" stroke-width="2"/>
+          <path d="M32 46c-4-3-6-5-6-7a3 3 0 0 1 6-1 3 3 0 0 1 6 1c0 2-2 4-6 7z" fill="#F28C28"/>
+        </svg>
+      </div>
+      <h3 class="modal__title" id="modalTitle">Спасибо!</h3>
+      <p class="modal__text" id="modalText">Мы получили вашу заявку.</p>
+      <button type="button" class="btn btn--accent" data-close>Отлично</button>
+    </div>
+  </div>
+
+  <!-- Подключаем скрипт в самом конце, когда вся страница уже загружена -->
+  <script src="script.js"></script>
+</body>
+</html>

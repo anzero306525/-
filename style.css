@@ -1,0 +1,1527 @@
+/* =========================================================
+   Кофейня «Добрый Гусь» — стили сайта
+
+   Как устроен файл:
+   1. Цвета и общие настройки (переменные)
+   2. Базовые стили
+   3. Кнопки
+   4. Появление при прокрутке
+   5. Шапка
+   6. Главный экран
+   7. Общие стили разделов
+   8. О нас
+   9. Преимущества
+   10. Меню
+   11. Бронирование
+   12. Контакты
+   13. Подвал, кнопка «Наверх», всплывающее окно
+   14. Анимации (@keyframes)
+   15. Адаптив для планшетов и телефонов
+   16. Отключение анимаций (prefers-reduced-motion)
+   ========================================================= */
+
+
+/* ---------- 1. Цвета и общие настройки ----------
+   Хотите поменять цвет сайта — меняйте его здесь, и он
+   поменяется везде, где используется. */
+:root {
+  --cream: #FBF5EC;        /* основной кремовый фон */
+  --cream-dark: #F3E8D8;   /* фон чуть темнее — для чередования разделов */
+  --milk: #FFFDF9;         /* фон карточек */
+  --coffee-900: #3B2A20;   /* самый тёмный — заголовки */
+  --coffee-700: #5C4033;   /* основной текст */
+  --coffee-500: #8B6B4F;   /* второстепенный текст */
+  --latte: #C9A27E;        /* светло-кофейный */
+  --accent: #F28C28;       /* яркий акцент — цвет гусиного клюва */
+  --accent-dark: #DE7414;  /* акцент при наведении */
+  --error: #D64545;        /* цвет ошибок в форме */
+
+  --font-title: 'Playfair Display', Georgia, serif;
+  --font-text: 'Inter', Arial, sans-serif;
+
+  --radius: 22px;          /* скругление больших блоков */
+  --radius-sm: 14px;       /* скругление маленьких блоков */
+  --shadow: 0 10px 30px rgba(59, 42, 32, 0.08);
+  --shadow-lift: 0 22px 45px rgba(59, 42, 32, 0.16);
+
+  --header-h: 76px;        /* высота шапки */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* «пружинка» для кнопок */
+}
+
+
+/* ---------- 2. Базовые стили ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;                 /* плавная прокрутка к разделам */
+  scroll-padding-top: var(--header-h);     /* чтобы шапка не закрывала заголовок раздела */
+}
+
+body {
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--coffee-700);
+  background: var(--cream);
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-title);
+  color: var(--coffee-900);
+  line-height: 1.2;
+}
+
+/* Контейнер — ограничивает ширину содержимого и делает отступы по бокам */
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Видимая рамка при навигации с клавиатуры */
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+
+/* ---------- 3. Кнопки ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 16px;
+  white-space: nowrap;
+  /* плавная смена цвета + пружинистое увеличение */
+  transition:
+    background-color 0.4s ease-out,
+    color 0.4s ease-out,
+    border-color 0.4s ease-out,
+    box-shadow 0.4s ease-out,
+    transform 0.5s var(--spring);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* При нажатии кнопка «сжимается», а отпустили — пружинит обратно */
+.btn:active {
+  transform: scale(0.94);
+  transition-duration: 0.1s;
+}
+
+/* Оранжевая кнопка */
+.btn--accent {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(242, 140, 40, 0.35);
+}
+
+.btn--accent:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 12px 26px rgba(242, 140, 40, 0.45);
+}
+
+/* Светлая прозрачная кнопка (на главном экране) */
+.btn--light {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.btn--light:hover {
+  background: #fff;
+  color: var(--coffee-900);
+}
+
+/* Кнопка с рамкой для тёмного фона (в подвале) */
+.btn--ghost {
+  color: var(--cream);
+  border: 2px solid rgba(251, 245, 236, 0.4);
+  padding: 10px 22px;
+}
+
+.btn--ghost:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+
+/* ---------- 4. Появление при прокрутке ----------
+   Элемент с классом .reveal сначала спрятан и сдвинут вниз.
+   Когда он попадает на экран, script.js добавляет класс .visible —
+   и элемент плавно выезжает и проявляется. */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal--left {
+  transform: translateX(-60px);   /* выезжает слева */
+}
+
+.reveal--right {
+  transform: translateX(60px);    /* выезжает справа */
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* ---------- 5. Шапка ---------- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--header-h);
+  color: #fff;   /* поверх фото текст белый */
+  transition: background-color 0.5s ease-out, box-shadow 0.5s ease-out, color 0.5s ease-out;
+}
+
+/* Когда страницу прокрутили — шапка полупрозрачная с размытием фона */
+.header.scrolled,
+.header.menu-open {
+  color: var(--coffee-900);
+  background: rgba(251, 245, 236, 0.78);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(59, 42, 32, 0.08);
+}
+
+.header__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* Логотип */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.logo__icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--coffee-900);   /* цвет контура гуся */
+  box-shadow: var(--shadow);
+}
+
+.logo__icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* Голова гуся иногда покачивается. transform-origin — точка у основания шеи */
+.goose__head {
+  transform-box: view-box;
+  transform-origin: 16px 32px;
+  animation: gooseNod 7s ease-in-out infinite;
+}
+
+/* Меню */
+.nav__list {
+  display: flex;
+  gap: 32px;
+}
+
+.nav__link {
+  position: relative;
+  font-weight: 500;
+  padding: 4px 0;
+}
+
+/* Оранжевая полоска под пунктом меню при наведении */
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-out;
+}
+
+.nav__link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav__btn-mobile {
+  display: none;
+}
+
+.header__btn {
+  padding: 11px 22px;
+  font-size: 15px;
+}
+
+/* Бургер (три полоски) — по умолчанию спрятан */
+.burger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+/* Бургер превращается в крестик */
+.burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.open span:nth-child(2) { opacity: 0; }
+.burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+
+/* ---------- 6. Главный экран ---------- */
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  will-change: transform;
+}
+
+/* Эффект Ken Burns — фото медленно приближается и отдаляется */
+.hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenBurns 18s ease-in-out infinite alternate;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, rgba(40, 25, 15, 0.82) 0%, rgba(40, 25, 15, 0.45) 60%, rgba(40, 25, 15, 0.3) 100%);
+}
+
+.hero__content {
+  max-width: 720px;
+  padding: calc(var(--header-h) + 20px) 0 60px;
+}
+
+.hero__label {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero__title {
+  margin-bottom: 18px;
+  font-size: clamp(48px, 9vw, 96px);
+  color: #fff;
+}
+
+.hero__slogan {
+  max-width: 520px;
+  margin-bottom: 36px;
+  font-size: clamp(18px, 2.4vw, 24px);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.hero__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Элементы главного экрана появляются по очереди */
+.hero-anim {
+  animation: fadeUp 0.8s ease-out backwards;
+}
+.hero-anim:nth-child(1) { animation-delay: 0.2s; }
+.hero-anim:nth-child(2) { animation-delay: 0.4s; }
+.hero-anim:nth-child(3) { animation-delay: 0.6s; }
+.hero-anim:nth-child(4) { animation-delay: 0.8s; }
+
+/* Чашка с паром в правом нижнем углу */
+.hero__cup {
+  position: absolute;
+  right: 8%;
+  bottom: 10%;
+  width: 130px;
+  color: rgba(255, 255, 255, 0.9);   /* цвет пара */
+  animation: fadeUp 0.8s ease-out 1s backwards;
+}
+
+/* Пар: волнистые линии плывут вверх и тают */
+.steam {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: steam 3s ease-out infinite;
+}
+.steam--2 { animation-delay: 1s; }
+.steam--3 { animation-delay: 2s; }
+
+
+/* ---------- 7. Общие стили разделов ---------- */
+.section {
+  padding: 110px 0;
+}
+
+.section__head {
+  max-width: 640px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.section__label {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
+}
+
+.section__title {
+  margin-bottom: 16px;
+  font-size: clamp(32px, 5vw, 48px);
+}
+
+.section__subtitle {
+  color: var(--coffee-500);
+}
+
+/* Обёртка для параллакса: картинка внутри чуть выше рамки,
+   чтобы при сдвиге не было пустых краёв */
+.parallax {
+  position: relative;
+  height: 100%;
+  will-change: transform;
+}
+
+.parallax img {
+  position: absolute;
+  left: 0;
+  top: -60px;
+  width: 100%;
+  height: calc(100% + 120px);
+  object-fit: cover;
+  transition: transform 0.7s ease-out;
+}
+
+
+/* ---------- 8. О нас ---------- */
+.about {
+  overflow: hidden;   /* чтобы выезжающие сбоку фото не создавали прокрутку вбок */
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.about__para + .about__para {
+  margin-top: 16px;
+}
+
+.about__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.about__photo {
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lift);
+}
+
+.about__photo--2 {
+  margin-top: 60px;
+}
+
+/* При наведении фото слегка увеличивается */
+.about__photo:hover img {
+  transform: scale(1.06);
+}
+
+
+/* ---------- 9. Преимущества ---------- */
+.features {
+  background: var(--cream-dark);
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.feature-card {
+  padding: 40px 32px;
+  text-align: center;
+  background: var(--milk);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: opacity 0.7s ease-out, transform 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+/* При наведении карточка приподнимается, а тень становится глубже */
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lift);
+}
+
+.feature-card__icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--latte);   /* цвет пара у чашки */
+}
+
+.feature-card__icon svg {
+  width: 66px;
+  height: 66px;
+  overflow: visible;
+}
+
+/* ...а иконка подпрыгивает */
+.feature-card:hover .feature-card__icon {
+  animation: iconBounce 0.7s ease-out;
+}
+
+.feature-card h3 {
+  margin-bottom: 12px;
+  font-size: 24px;
+}
+
+/* Круассан мягко покачивается */
+.croissant {
+  transform-box: view-box;
+  transform-origin: 32px 44px;
+  animation: rock 3s ease-in-out infinite;
+}
+
+/* Листья растения колышутся (у каждого своя точка вращения) */
+.leaf {
+  transform-box: view-box;
+  animation: leafSway 3.5s ease-in-out infinite;
+}
+.leaf--left  { transform-origin: 32px 34px; }
+.leaf--right { transform-origin: 32px 28px; animation-delay: 0.6s; animation-direction: reverse; }
+.leaf--top   { transform-origin: 32px 19px; animation-delay: 1.2s; }
+
+
+/* ---------- 10. Меню ---------- */
+.menu-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.menu-tab {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 2px solid var(--cream-dark);
+  background: var(--milk);
+  font-weight: 600;
+  color: var(--coffee-700);
+  transition:
+    background-color 0.4s ease-out,
+    color 0.4s ease-out,
+    border-color 0.4s ease-out,
+    transform 0.5s var(--spring);
+}
+
+.menu-tab:hover {
+  border-color: var(--latte);
+  transform: scale(1.05);
+}
+
+.menu-tab:active {
+  transform: scale(0.94);
+  transition-duration: 0.1s;
+}
+
+.menu-tab.active {
+  background: var(--coffee-700);
+  border-color: var(--coffee-700);
+  color: var(--cream);
+}
+
+.menu-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* Позиция меню. Анимация появления + задержка задаются в script.js */
+.menu-item {
+  padding: 22px 26px;
+  background: var(--milk);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.5s ease-out backwards;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+.menu-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+.menu-item__top {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.menu-item__name {
+  font-family: var(--font-title);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--coffee-900);
+}
+
+/* Точки между названием и ценой */
+.menu-item__dots {
+  flex: 1;
+  min-width: 20px;
+  border-bottom: 2px dotted var(--latte);
+  transform: translateY(-5px);
+}
+
+.menu-item__price {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--accent-dark);
+}
+
+.menu-item__desc {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--coffee-500);
+}
+
+
+/* ---------- 11. Бронирование ---------- */
+.booking {
+  background: var(--cream-dark);
+}
+
+.booking__grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.booking__photo {
+  height: 320px;
+  margin-top: 32px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lift);
+}
+
+.booking__photo:hover img {
+  transform: scale(1.06);
+}
+
+.booking-form {
+  display: grid;
+  gap: 22px;
+  padding: 40px;
+  background: var(--milk);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--coffee-900);
+}
+
+.field__input {
+  width: 100%;
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 16px;
+  color: var(--coffee-900);
+  background: var(--cream);
+  border: 2px solid var(--cream-dark);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.4s ease-out, box-shadow 0.4s ease-out, background-color 0.4s ease-out;
+}
+
+.field__input::placeholder {
+  color: #B49A84;
+}
+
+.field__input:focus {
+  outline: none;
+  background: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.15);
+}
+
+textarea.field__input {
+  resize: vertical;
+  min-height: 96px;
+}
+
+/* Ошибки: по умолчанию спрятаны */
+.field__error {
+  display: none;
+  font-size: 14px;
+  color: var(--error);
+}
+
+.field.has-error .field__input {
+  border-color: var(--error);
+}
+
+.field.has-error .field__error {
+  display: block;
+  animation: fadeUp 0.4s ease-out;
+}
+
+/* Кнопки-слоты времени */
+.slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(78px, 1fr));
+  gap: 8px;
+}
+
+.slot {
+  padding: 10px 6px;
+  font-weight: 500;
+  background: var(--cream);
+  border: 2px solid var(--cream-dark);
+  border-radius: 10px;
+  transition:
+    background-color 0.4s ease-out,
+    color 0.4s ease-out,
+    border-color 0.4s ease-out,
+    transform 0.5s var(--spring);
+}
+
+.slot:hover:not(:disabled) {
+  border-color: var(--latte);
+  transform: scale(1.05);
+}
+
+.slot:active:not(:disabled) {
+  transform: scale(0.94);
+  transition-duration: 0.1s;
+}
+
+.slot.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.slot:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.field.has-error .slots .slot {
+  border-color: rgba(214, 69, 69, 0.45);
+}
+
+/* Счётчик гостей − 2 + */
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 4px;
+  background: var(--cream);
+  border: 2px solid var(--cream-dark);
+  border-radius: 999px;
+}
+
+.counter__btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+  background: var(--milk);
+  color: var(--coffee-700);
+  box-shadow: 0 3px 8px rgba(59, 42, 32, 0.1);
+  transition: background-color 0.4s ease-out, color 0.4s ease-out, transform 0.5s var(--spring);
+}
+
+.counter__btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.counter__btn:active:not(:disabled) {
+  transform: scale(0.9);
+  transition-duration: 0.1s;
+}
+
+.counter__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.counter__value {
+  min-width: 36px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--coffee-900);
+}
+
+.counter__value.bump {
+  animation: bump 0.4s ease-out;
+}
+
+/* Выбор зоны — «таблетки». Сам кружок радиокнопки спрятан */
+.zones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  position: relative;
+}
+
+.chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip span {
+  display: block;
+  padding: 9px 18px;
+  font-weight: 500;
+  border-radius: 999px;
+  background: var(--cream);
+  border: 2px solid var(--cream-dark);
+  cursor: pointer;
+  transition: background-color 0.4s ease-out, color 0.4s ease-out, border-color 0.4s ease-out;
+}
+
+.chip span:hover {
+  border-color: var(--latte);
+}
+
+.chip input:checked + span {
+  background: var(--coffee-700);
+  border-color: var(--coffee-700);
+  color: var(--cream);
+}
+
+.chip input:focus-visible + span {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.booking-form__submit {
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+}
+
+.booking-form__note {
+  margin-top: -8px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--coffee-500);
+}
+
+
+/* ---------- 12. Контакты ---------- */
+.contacts__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+}
+
+.contacts__card {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  padding: 40px;
+  background: var(--milk);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.contact {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.contact__icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--cream-dark);
+  color: var(--accent-dark);
+}
+
+.contact__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.contact__title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coffee-500);
+}
+
+.contact__value {
+  display: block;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--coffee-900);
+  transition: color 0.4s ease-out;
+}
+
+a.contact__value:hover {
+  color: var(--accent-dark);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 999px;
+  background: var(--cream-dark);
+  transition: background-color 0.4s ease-out, color 0.4s ease-out, transform 0.5s var(--spring);
+}
+
+.social svg {
+  width: 20px;
+  height: 20px;
+}
+
+.social:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.social:active {
+  transform: scale(0.94);
+  transition-duration: 0.1s;
+}
+
+/* Место под карту */
+.map {
+  min-height: 420px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 2px dashed var(--latte);
+  background:
+    radial-gradient(circle at 30% 40%, rgba(242, 140, 40, 0.08), transparent 40%),
+    repeating-linear-gradient(45deg, var(--cream-dark) 0 2px, transparent 2px 22px),
+    var(--milk);
+  display: grid;
+  place-items: center;
+}
+
+/* Если вставите iframe с картой — он растянется на весь блок */
+.map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: 0;
+}
+
+.map__placeholder {
+  padding: 24px;
+  text-align: center;
+  color: var(--coffee-500);
+}
+
+.map__placeholder svg {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 12px;
+  color: var(--accent);
+  animation: pinBounce 2.4s ease-in-out infinite;
+}
+
+.map__title {
+  font-family: var(--font-title);
+  font-size: 22px;
+  color: var(--coffee-900);
+}
+
+
+/* ---------- 13. Подвал, кнопка «Наверх», всплывающее окно ---------- */
+.footer {
+  padding: 64px 0 32px;
+  background: var(--coffee-900);
+  color: rgba(251, 245, 236, 0.85);
+}
+
+.footer .logo {
+  color: #fff;
+}
+
+.footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer__slogan {
+  max-width: 280px;
+  margin-top: 12px;
+  opacity: 0.75;
+}
+
+.footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  padding-top: 10px;
+}
+
+.footer__nav a {
+  transition: color 0.4s ease-out;
+}
+
+.footer__nav a:hover {
+  color: var(--accent);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 24px;
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* Плавающая кнопка «Наверх» — спрятана, пока не прокрутили вниз */
+.to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 10px 24px rgba(242, 140, 40, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  transition:
+    opacity 0.5s ease-out,
+    visibility 0.5s ease-out,
+    background-color 0.4s ease-out,
+    transform 0.5s var(--spring);
+}
+
+.to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.to-top:hover {
+  background: var(--accent-dark);
+  transform: scale(1.1);
+}
+
+.to-top:active {
+  transform: scale(0.9);
+  transition-duration: 0.1s;
+}
+
+/* Всплывающее окно */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 42, 32, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.modal__window {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 32px 32px;
+  text-align: center;
+  background: var(--milk);
+  border-radius: 28px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.6s var(--spring);
+}
+
+.modal.open .modal__window {
+  transform: none;
+}
+
+.modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--coffee-500);
+  transition: background-color 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.modal__close:hover {
+  background: var(--cream-dark);
+  transform: rotate(90deg);
+}
+
+.modal__cup {
+  width: 110px;
+  margin: 0 auto 12px;
+  color: var(--latte);
+}
+
+.modal__title {
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+.modal__text {
+  margin-bottom: 24px;
+  color: var(--coffee-500);
+}
+
+
+/* ---------- 14. Анимации (@keyframes) ---------- */
+
+/* Появление снизу */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Медленное приближение фото */
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.15) translate(-1%, -1%); }
+}
+
+/* Пар поднимается, слегка покачиваясь, и исчезает */
+@keyframes steam {
+  0%   { opacity: 0;   transform: translate(0, 6px); }
+  30%  { opacity: 0.8; }
+  60%  { transform: translate(2px, -6px); }
+  100% { opacity: 0;   transform: translate(-1px, -16px); }
+}
+
+/* Гусь покачивает головой — большую часть времени стоит спокойно */
+@keyframes gooseNod {
+  0%, 82%, 100% { transform: rotate(0); }
+  86% { transform: rotate(-12deg); }
+  91% { transform: rotate(7deg); }
+  96% { transform: rotate(-3deg); }
+}
+
+/* Покачивание круассана */
+@keyframes rock {
+  0%, 100% { transform: rotate(-6deg); }
+  50%      { transform: rotate(6deg); }
+}
+
+/* Колыхание листьев */
+@keyframes leafSway {
+  0%, 100% { transform: rotate(0); }
+  50%      { transform: rotate(-9deg); }
+}
+
+/* Иконка подпрыгивает */
+@keyframes iconBounce {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(-14px); }
+  55%  { transform: translateY(0); }
+  75%  { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+/* Число гостей «подпрыгивает» при изменении */
+@keyframes bump {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.3); }
+}
+
+/* Метка на карте */
+@keyframes pinBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+
+/* ---------- 15. Адаптив ---------- */
+
+/* Планшеты */
+@media (max-width: 960px) {
+  .about__grid,
+  .booking__grid,
+  .contacts__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .features__grid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+/* Мобильное меню */
+@media (max-width: 900px) {
+  .burger {
+    display: flex;
+  }
+
+  .header__btn {
+    display: none;
+  }
+
+  /* Меню выпадает из-под шапки */
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 12px 16px 24px;
+    color: var(--coffee-900);
+    background: var(--cream);
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: 0 20px 30px rgba(59, 42, 32, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, visibility 0.4s ease-out;
+  }
+
+  .nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav__list {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .nav__link {
+    display: block;
+    padding: 12px 8px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .nav__link::after {
+    display: none;
+  }
+
+  .nav__link:hover {
+    background: var(--cream-dark);
+  }
+
+  .nav__btn-mobile {
+    display: flex;
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+/* Телефоны */
+@media (max-width: 640px) {
+  :root {
+    --header-h: 66px;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: 72px 0;
+  }
+
+  .section__head {
+    margin-bottom: 40px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .logo__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo__icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .hero__content {
+    padding-bottom: 120px;
+  }
+
+  .hero__buttons {
+    flex-direction: column;
+  }
+
+  .hero__buttons .btn {
+    width: 100%;
+  }
+
+  .hero__cup {
+    right: 16px;
+    bottom: 20px;
+    width: 80px;
+  }
+
+  .about__photo--2 {
+    margin-top: 40px;
+  }
+
+  .menu-list,
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-item {
+    padding: 18px 20px;
+  }
+
+  .booking-form {
+    padding: 28px 20px;
+  }
+
+  .booking__photo {
+    height: 220px;
+  }
+
+  .contacts__card {
+    padding: 28px 20px;
+  }
+
+  .map,
+  .map iframe {
+    min-height: 280px;
+  }
+
+  .footer__top {
+    flex-direction: column;
+  }
+
+  .to-top {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+
+/* ---------- 16. Отключение анимаций ----------
+   Если человек включил в системе «Уменьшить движение»,
+   убираем все анимации и плавные переходы. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Все блоки сразу видны */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Пар просто виден, без движения */
+  .steam {
+    opacity: 0.6;
+  }
+
+  /* Никаких увеличений и подпрыгиваний при наведении */
+  .btn:hover, .btn:active,
+  .menu-tab:hover, .menu-tab:active,
+  .feature-card:hover,
+  .menu-item:hover,
+  .slot:hover, .slot:active,
+  .counter__btn:hover, .counter__btn:active,
+  .social:hover, .social:active,
+  .to-top:hover, .to-top:active,
+  .modal__close:hover,
+  .about__photo:hover img,
+  .booking__photo:hover img {
+    transform: none !important;
+  }
+}
